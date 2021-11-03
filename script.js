@@ -3,13 +3,13 @@ const quizData = [
         question: 'De quem é a famosa frase “Penso, logo existo”?',
         a: "Platão",
         b: "Galileu Galilei",
-        c: "Descartes",
+        c: "René Descartes",
         d: "Sócrates",
         e: "Francis Bacon",
         correct: 'René Descartes'
     },
     {
-        question: "De onde é a invenção do chuveiro elétrico?",
+        question: "De qual país é a invenção do chuveiro elétrico?",
        a: 'França',
        b: 'Inglaterra',
        c: 'Brasil',
@@ -18,7 +18,7 @@ const quizData = [
         correct: 'Brasil'
     },
     {
-        question: 'Quais o menor e o maior país do mundo?',
+        question: 'Quais são o menor e o maior país do mundo?',
        a: "Vaticano e Rússia",
        b: "Nauru e China",
        c: "Mônaco e Canadá",
@@ -68,8 +68,9 @@ const quizData = [
 
 
 
-const questionEL = document.getElementById('question');
-
+const quiz = document.getElementById('quiz')
+const answersEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question');
 const a_text = document.getElementById('a_text');
 const b_text = document.getElementById('b_text');
 const c_text = document.getElementById('c_text');
@@ -80,6 +81,7 @@ const subBtn = document.getElementById('submit-btn')
 
 
 let currentQuiz = 0;
+let score = 0;
 
 
 
@@ -87,9 +89,11 @@ loadQuiz();
 
 
 function loadQuiz ()  {
+    deselectAnswer();
+
     const currentQuizData = quizData[currentQuiz];
 
-    questionEL.innerText = currentQuizData.question;
+    questionEl.innerText = currentQuizData.question;
 
     a_text.innerText = currentQuizData.a;
     b_text.innerText = currentQuizData.b;
@@ -98,14 +102,45 @@ function loadQuiz ()  {
     e_text.innerText = currentQuizData.e;
 }
 
+function getSelected () {
+    let answer = undefined;
+    answersEls.forEach((answerEl) =>{
+        if (answerEl.checked) {
+            answer = answerEl.id; 
+        }
+    });
+
+    return answer;
+}
+
+function deselectAnswer () {
+    answersEls.forEach((answerEl) =>{
+        answerEl.checked = false;
+    });
+}
+
 subBtn.addEventListener('click', () => {
-    currentQuiz ++;
+    //checar  e ver os resultados
+    
+    const answer = getSelected();
 
-    if(currentQuiz < quizData.length){
+    if(answer ) {
+        if(answer === quizData[currentQuiz].correct){
 
-        loadQuiz();
-    } else {
-        alert("Você Finalizou. PARABENS!!!")
-    }
+                score++;
+            }
+        }
+            currentQuiz ++;
+    
+          if(currentQuiz < quizData.length){
 
-})
+                loadQuiz();
+                
+            } else {
+               
+                quiz.innerHTML = `Você respondeu corretamente <h2>${score}/${quizData.length} Questões </h2> `
+            }
+             
+        
+        
+    })
