@@ -75,6 +75,8 @@ const b_text = document.getElementById('b_text');
 const c_text = document.getElementById('c_text');
 const d_text = document.getElementById('d_text');
 const e_text = document.getElementById('e_text');
+const subBtn = document.getElementById('submit-btn')
+
 
 
 let currentQuiz = 0;
@@ -94,12 +96,16 @@ function loadQuiz ()  {
     c_text.innerText = currentQuizData.c;
     d_text.innerText = currentQuizData.d;
     e_text.innerText = currentQuizData.e;
-
-    currentQuiz ++;
-    
-    console.log(a_text)
-    console.log(b_text)
-    console.log(c_text)
-    console.log(d_text)
-    console.log(e_text)
 }
+
+subBtn.addEventListener('click', () => {
+    currentQuiz ++;
+
+    if(currentQuiz < quizData.length){
+
+        loadQuiz();
+    } else {
+        alert("Você Finalizou. PARABENS!!!")
+    }
+
+})
